@@ -31,7 +31,7 @@
 
 참고 프로젝트(reference project)를 바탕으로 이 문서들을 개선할 때는 다음을 따른다.
 
-- 스택 고유 습관이 아니라 재사용 가능한 에이전트 작업 흐름(workflow) 패턴을 추출한다.
+- 스택 고유 습관이 아니라 재사용 가능한 에이전트 작업 흐름 패턴을 추출한다.
 - 도구별 명령은 일반적인 검증 범주로 일반화한다.
 - 특정 스택을 다루는 문서가 아니라면 언어, framework, package manager, build tool을 추천으로 추가하지 않는다.
 - 구체적인 예시는 일반 패턴을 명확히 할 때만 유지한다.
@@ -43,7 +43,8 @@
 - 설명 문장은 한국어로 쓴다.
 - 코드, 명령, 파일 경로, commit message, config snippet, identifier는 영어로 유지한다.
 - 실무에서 영어로 말하는 용어는 영어로 유지한다. 예: `artifact`, `fixture`, `snapshot`, `schema`, `runtime`, `framework`, `package manager`.
-- 헷갈릴 수 있는 핵심 개념만 각 문서의 첫 등장에 한국어와 영어를 병기한다. 예: 작업 흐름(workflow), 인계(handoff), 세로 슬라이스(vertical slice), 범위(scope), 범위 밖(non-goals), 결정 기록(decision record).
+- 도구나 제품의 고유 개념은 원래 용어를 유지한다. 예: `GitHub Actions workflow`, `CI workflow`, `workflow file`.
+- 헷갈릴 수 있는 핵심 개념만 각 문서의 첫 등장에 한국어와 영어를 병기한다. 예: 인계(handoff), 세로 슬라이스(vertical slice), 범위(scope), 범위 밖(non-goals), 결정 기록(decision record).
 - 한 문서 안에서는 같은 개념을 같은 표현으로 부른다.
 
 ## 하지 않을 것

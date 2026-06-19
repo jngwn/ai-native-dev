@@ -16,6 +16,7 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 6. `decision-record-template.md`
 7. `reference-analysis-template.md`
 8. `terminology-guide.md`
+9. `repo-review-checklist.md`
 
 ## 문서 역할
 
@@ -28,8 +29,9 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 | `implementation-plan-template.md` | 큰 기능을 세로 슬라이스와 단계별 완료 기준으로 나누는 템플릿 |
 | `verification-and-pr-template.md` | 검증 매트릭스와 PR 완료 보고 템플릿 |
 | `decision-record-template.md` | 되돌리기 어려운 결정을 남기는 결정 기록/RFC 템플릿 |
-| `reference-analysis-template.md` | 참고 프로젝트에서 재사용 가능한 에이전트 작업 흐름(workflow)을 추출하는 템플릿 |
+| `reference-analysis-template.md` | 참고 프로젝트에서 재사용 가능한 에이전트 작업 흐름을 추출하는 템플릿 |
 | `terminology-guide.md` | 한국어 문서에서 IT, AI/ML 표준 용어를 다루는 기준 |
+| `repo-review-checklist.md` | 이 저장소 자체를 개선할 때 보는 품질 체크리스트 |
 
 ## 사용 방법
 

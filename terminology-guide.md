@@ -36,6 +36,14 @@ benchmark
 profile
 ```
 
+도구나 제품의 고유 개념은 원래 용어를 유지한다.
+
+```text
+GitHub Actions workflow
+CI workflow
+workflow file
+```
+
 예:
 
 ```text
@@ -55,6 +63,7 @@ runtime 동작은 이번 단계에서 바꾸지 않는다.
 완료 기준
 책임 경계
 작업 범위
+작업 흐름
 범위 밖
 결정 기록
 문서 정합성
@@ -71,7 +80,6 @@ runtime 동작은 이번 단계에서 바꾸지 않는다.
 처음 읽는 사람이 헷갈릴 수 있거나, 영어 자료와 연결해야 하는 핵심 개념만 첫 등장에 병기한다.
 
 ```text
-작업 흐름(workflow)
 인계(handoff)
 인계 요약(handoff summary)
 세로 슬라이스(vertical slice)
