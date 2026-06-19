@@ -23,7 +23,7 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 | 린트 | `<lint>` | 없음 | 정적 오류 방지 | 런타임 오류는 모름 |
 | 단위 테스트 | `<unit-test>` | 없음 | 작은 규칙 검증 | 통합 경로는 모름 |
 | 통합 테스트 | `<integration-test>` | `<artifact>` | 주요 경로 검증 | 환경 차이 가능 |
-| E2E | `<e2e-test>` | `<artifact>` | 사용자 workflow 검증 | 느리거나 flaky 가능 |
+| E2E | `<e2e-test>` | `<artifact>` | 사용자 작업 흐름(workflow) 검증 | 느리거나 flaky 가능 |
 
 ## 기능별 검증
 

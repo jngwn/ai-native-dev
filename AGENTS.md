@@ -1,46 +1,54 @@
 # AGENTS.md
 
-## Scope
+## 범위
 
-This folder contains notes and templates for AI-native software development.
+이 저장소는 AI 네이티브 개발(AI-native development)을 위한 노트와 템플릿을 담는다.
 
-The goal is to help a human start large projects with AI agents by writing clear instruction documents before implementation.
+목표는 사람이 큰 프로젝트를 시작할 때, 구현 전에 명확한 지시문서를 작성해서 AI 에이전트에게 장기 작업을 맡길 수 있게 하는 것이다.
 
-## Editing Principles
+## 편집 원칙
 
-- Preserve practical, reusable guidance over abstract theory.
-- Prefer concrete templates, checklists, and examples.
-- Keep documents readable as personal engineering notes, not formal corporate process docs.
-- Do not make the system heavier unless the added structure prevents real agent failure modes.
-- When improving a document, clarify what decision the agent should not make alone.
-- Clarify what artifact should be produced, how completion should be verified, and what remains out of scope.
-- Avoid duplicating the same rule across many files unless it is intentionally central.
-- If two documents disagree, report the conflict instead of silently choosing one.
+- 추상 이론보다 실용적이고 재사용 가능한 지침을 우선한다.
+- 구체적인 템플릿, 체크리스트, 예시를 선호한다.
+- 문서는 형식적인 조직 프로세스 문서가 아니라 개인 엔지니어링 노트처럼 읽히게 유지한다.
+- 실제 에이전트 실패 모드를 줄이는 구조가 아니라면 문서 체계를 더 무겁게 만들지 않는다.
+- 문서를 개선할 때는 에이전트가 혼자 결정하면 안 되는 항목을 명확히 한다.
+- 어떤 artifact를 만들어야 하는지, 완료를 어떻게 검증해야 하는지, 무엇이 범위 밖인지 명확히 한다.
+- 의도적으로 중심 규칙으로 두는 경우가 아니라면 같은 규칙을 여러 파일에 중복하지 않는다.
+- 두 문서가 충돌하면 조용히 하나를 선택하지 말고 충돌을 보고한다.
 
-## Improvement Standard
+## 개선 기준
 
-A good improvement makes it easier for an agent to:
+좋은 개선은 에이전트가 다음을 더 쉽게 하게 만든다.
 
-- understand the project goal
-- avoid unauthorized architectural decisions
-- work in small verified steps
-- report uncertainty clearly
-- leave useful context for the next session
+- 프로젝트 목표 이해
+- 허가되지 않은 아키텍처 결정 회피
+- 작고 검증된 단계로 작업
+- 불확실성 명확히 보고
+- 다음 세션을 위한 유용한 맥락 남기기
 
-## Reference Project Analysis
+## 참고 프로젝트 분석
 
-When improving these documents from a reference project:
+참고 프로젝트(reference project)를 바탕으로 이 문서들을 개선할 때는 다음을 따른다.
 
-- Extract reusable agent workflow patterns, not stack-specific habits.
-- Translate tool-specific commands into generic verification categories.
-- Do not add a language, framework, package manager, or build tool as a recommendation unless the document is explicitly about that stack.
-- Preserve concrete examples only when they clarify a general pattern.
-- If a reference project is strong because of its workflow rather than its technology, document the workflow.
-- If a tool name appears as an example, make clear that it is illustrative and not a preferred default.
+- 스택 고유 습관이 아니라 재사용 가능한 에이전트 작업 흐름(workflow) 패턴을 추출한다.
+- 도구별 명령은 일반적인 검증 범주로 일반화한다.
+- 특정 스택을 다루는 문서가 아니라면 언어, framework, package manager, build tool을 추천으로 추가하지 않는다.
+- 구체적인 예시는 일반 패턴을 명확히 할 때만 유지한다.
+- 참고 프로젝트가 기술보다 작업 흐름 때문에 강하다면 그 작업 흐름을 문서화한다.
+- 도구 이름이 예시로 등장하면 선호 기본값이 아니라 예시임을 명확히 한다.
 
-## Do Not
+## 용어
 
-- Add generic AI productivity advice.
-- Add motivational prose.
-- Turn templates into long essays.
-- Remove constraints just to make the document shorter.
+- 설명 문장은 한국어로 쓴다.
+- 코드, 명령, 파일 경로, commit message, config snippet, identifier는 영어로 유지한다.
+- 실무에서 영어로 말하는 용어는 영어로 유지한다. 예: `artifact`, `fixture`, `snapshot`, `schema`, `runtime`, `framework`, `package manager`.
+- 헷갈릴 수 있는 핵심 개념만 각 문서의 첫 등장에 한국어와 영어를 병기한다. 예: 작업 흐름(workflow), 인계(handoff), 세로 슬라이스(vertical slice), 범위(scope), 범위 밖(non-goals), 결정 기록(decision record).
+- 한 문서 안에서는 같은 개념을 같은 표현으로 부른다.
+
+## 하지 않을 것
+
+- 일반적인 AI 생산성 조언을 추가하지 않는다.
+- 동기부여식 문장을 추가하지 않는다.
+- 템플릿을 긴 에세이로 바꾸지 않는다.
+- 문서를 짧게 만들기 위해 필요한 제약을 제거하지 않는다.

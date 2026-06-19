@@ -1,8 +1,10 @@
-# AI Agent Dev
+# AI Native Dev
 
 AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 초기 설계 자료 모음이다.
 
 핵심 관점은 "좋은 코드 작성법"보다 "에이전트가 임의 판단을 줄이고, 검증 가능한 단위로 계속 진행하게 만드는 문서 작성법"이다.
+
+이 저장소는 새 프로젝트에 그대로 넣는 문서 세트가 아니라, 그런 문서 세트를 만들기 위한 템플릿 라이브러리다. 그래서 파일은 복사하기 쉬운 평면 구조로 둔다.
 
 ## 읽는 순서
 
@@ -12,6 +14,8 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 4. `implementation-plan-template.md`
 5. `verification-and-pr-template.md`
 6. `decision-record-template.md`
+7. `reference-analysis-template.md`
+8. `terminology-guide.md`
 
 ## 문서 역할
 
@@ -24,9 +28,35 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 | `implementation-plan-template.md` | 큰 기능을 세로 슬라이스와 단계별 완료 기준으로 나누는 템플릿 |
 | `verification-and-pr-template.md` | 검증 매트릭스와 PR 완료 보고 템플릿 |
 | `decision-record-template.md` | 되돌리기 어려운 결정을 남기는 결정 기록/RFC 템플릿 |
+| `reference-analysis-template.md` | 참고 프로젝트에서 재사용 가능한 에이전트 작업 흐름(workflow)을 추출하는 템플릿 |
+| `terminology-guide.md` | 한국어 문서에서 IT, AI/ML 표준 용어를 다루는 기준 |
 
 ## 사용 방법
 
 새 프로젝트를 시작할 때는 먼저 `initial-design.md`의 초기 프롬프트를 에이전트에게 준다.
 
 그 다음 `project-documents-template.md`의 문서 세트를 프로젝트에 맞게 채우고, 구현은 `implementation-plan-template.md`의 첫 번째 세로 슬라이스부터 시작한다.
+
+## 참고 프로젝트로 개선하기
+
+다른 프로젝트를 참고해서 이 저장소를 개선할 때는 `reference-analysis-template.md`를 먼저 채운다.
+
+에이전트에게 줄 프롬프트:
+
+```text
+다음 참고 프로젝트의 문서만 먼저 분석해라.
+
+목표는 기술 스택(tech stack), 프레임워크(framework), 패키지 매니저(package manager)를 가져오는 것이 아니다.
+AI 에이전트에게 장기 개발을 맡기기 좋게 만드는 문서 구조, 운영 규칙, 검증(verification) 방식, 인계(handoff) 방식, 의사결정 기록(decision record) 방식을 추출하는 것이다.
+
+먼저 reference-analysis-template.md 형식으로 분석 결과를 작성해라.
+
+그 다음 이 저장소의 문서 중 개선할 가치가 있는 부분만 제안해라.
+중복, 장황함, 특정 스택 편향을 만들지 마라.
+
+결과물:
+1. 참고 프로젝트에서 배울 수 있는 에이전트 작업 흐름 패턴
+2. 이 저장소에 반영할 변경 제안
+3. 반영하지 말아야 할 스택 고유 요소
+4. 사용자 결정이 필요한 항목
+```

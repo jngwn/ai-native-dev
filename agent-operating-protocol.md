@@ -112,7 +112,7 @@
 1. config loader에 새 옵션 파싱을 추가한다.
 2. runtime 동작은 바꾸지 않는다.
 3. unit test와 config fixture를 추가한다.
-4. docs/configuration.md와 verification matrix를 갱신한다.
+4. docs/configuration.md와 검증 매트릭스(verification matrix)를 갱신한다.
 ```
 
 ---
@@ -220,7 +220,7 @@ git diff
 
 # Handoff 요약 형식
 
-작업이 길어져 다른 에이전트가 이어받을 수 있으면 handoff 요약을 남긴다.
+작업이 길어져 다른 에이전트가 이어받을 수 있으면 인계 요약(handoff summary)을 남긴다.
 
 ```text
 현재 목표:
@@ -285,5 +285,5 @@ config 파일에 option X를 추가하고, docs/configuration.md와 테스트를
 완료 전 관련 검증 명령을 실행한다.
 검증하지 못한 항목은 숨기지 말고 이유와 남은 위험을 보고한다.
 자동 검증이 불가능한 영역은 수동 검증 방법과 한계를 적는다.
-작업이 길어지면 handoff 요약을 남긴다.
+작업이 길어지면 인계 요약을 남긴다.
 ```
