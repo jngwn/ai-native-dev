@@ -17,19 +17,20 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 
 ## 기본 검증
 
-| 영역 | 명령 | 산출물 | 의미 | 한계 |
-| --- | --- | --- | --- | --- |
-| 포맷 | `<format-check>` | 없음 | 스타일이 일관됨 | 동작 검증 아님 |
-| 린트 | `<lint>` | 없음 | 정적 오류 방지 | 런타임 오류는 모름 |
-| 단위 테스트 | `<unit-test>` | 없음 | 작은 규칙 검증 | 통합 경로는 모름 |
-| 통합 테스트 | `<integration-test>` | `<artifact>` | 주요 경로 검증 | 환경 차이 가능 |
-| E2E | `<e2e-test>` | `<artifact>` | 사용자 작업 흐름 검증 | 느리거나 flaky 가능 |
+| 영역 | 명령 | 기본 포함 | 산출물 | 의미 | 한계 |
+| --- | --- | --- | --- | --- | --- |
+| 포맷 | `<format-check>` | 예 | 없음 | 스타일이 일관됨 | 동작 검증 아님 |
+| 린트 | `<lint>` | 예 | 없음 | 정적 오류 방지 | 런타임 오류는 모름 |
+| 단위 테스트 | `<unit-test>` | 예 | 없음 | 작은 규칙 검증 | 통합 경로는 모름 |
+| 통합 테스트 | `<integration-test>` | 예/아니오 | `<artifact>` | 주요 경로 검증 | 환경 차이 가능 |
+| E2E | `<e2e-test>` | 예/opt-in | `<artifact>` | 사용자 작업 흐름 검증 | 느리거나 flaky 가능 |
+| 성능/스트레스 | `<perf-or-stress>` | opt-in/PR gate | `<artifact>` | 회귀 감지 | 환경 영향 가능 |
 
 ## 기능별 검증
 
-| 기능 | 검증 방법 | 명령 | 산출물 | 완료 기준 | 한계 |
-| --- | --- | --- | --- | --- | --- |
-| <기능> | <unit/integration/e2e/manual> | `<command>` | `<path>` | <기준> | <한계> |
+| 기능 | 검증 방법 | 명령 | 기본 포함 | 산출물 | 완료 기준 | 한계 |
+| --- | --- | --- | --- | --- | --- | --- |
+| <기능> | <unit/integration/e2e/manual> | `<command>` | <예/아니오/opt-in/PR gate> | `<path>` | <기준> | <한계> |
 
 ## 수동 검증
 
@@ -45,6 +46,7 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 - 검증 명령을 실행했는가?
 - 실패 시 어떤 산출물을 보면 되는가?
 - 자동화하지 못한 영역이 있는가?
+- 검증이 기본 경로인지, opt-in인지, 환경 의존인지, PR 차단 gate인지 분명한가?
 - 새 한계가 생겼는가?
 ````
 
@@ -97,6 +99,24 @@ GitHub PR이 없어도 에이전트의 완료 보고는 이 형식을 따른다.
 ## 산출물
 
 - <artifact path>
+
+artifact 상태:
+
+- <local-only / fixture로 승격 / 장기 schema 계약>
+
+민감정보 처리:
+
+- <필요 없으면 없음>
+
+## 안정성 / 성능 영향
+
+hot path, queue, cache, background task, lock, I/O, thread hop에 영향:
+
+- <없으면 없음>
+
+bounded 확인:
+
+- <size limit, timeout, drop/coalesce, cleanup, rollback 조건>
 
 ## 한계
 
@@ -169,6 +189,7 @@ GitHub PR이 없어도 에이전트의 완료 보고는 이 형식을 따른다.
 | 성능 변경 | benchmark 또는 profile artifact |
 | 보안/권한 변경 | threat model 문서 + negative test |
 | 저장 포맷 변경 | migration/compat test |
+| queue/cache/background task 변경 | bounded test + cleanup/rollback artifact |
 
 ---
 
@@ -195,3 +216,30 @@ artifact는 실패 원인을 좁히기 위해 남긴다.
 artifact는 테스트를 대체하지 않는다.
 
 테스트가 실패했을 때 사람이 원인을 빨리 찾게 하는 보조 자료다.
+
+---
+
+# artifact lifecycle
+
+artifact는 상태에 따라 다르게 다룬다.
+
+| 상태 | 의미 | 필요한 문서화 |
+| --- | --- | --- |
+| local-only | 로컬 디버깅 보조 자료 | 경로와 보는 법 |
+| fixture로 승격 | 회귀 테스트 입력/기대값으로 커밋됨 | 생성 방법, 갱신 방법, 민감정보 제거 기준 |
+| 장기 schema 계약 | replay, inspector, 외부 도구가 읽는 포맷 | version, 호환성 규칙, 깨지는 변경 기준 |
+
+로컬 artifact를 fixture로 승격할 때는 민감정보가 없는지 확인한다. 홈 디렉터리, 사용자 이름, 서버 주소, 토큰, 쿠키, 개인키, 세션 값은 제거하거나 일반화한다.
+
+artifact 포맷의 의미가 바뀌면 PR 보고에 다음을 적는다.
+
+```text
+artifact/schema 변경:
+  유지 / 변경
+
+이유:
+  <단순 출력 변경인지, consumer가 다르게 해석해야 하는지>
+
+영향:
+  <fixture, replay, inspector, 문서, 수동 검증에 미치는 영향>
+```

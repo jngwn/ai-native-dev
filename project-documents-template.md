@@ -41,6 +41,26 @@ docs/
     0001-<decision>.md
 ```
 
+필요할 때만 추가하는 선택 문서:
+
+```text
+docs/development-commands.md
+docs/artifact-format.md
+docs/performance-budget.md
+docs/references.md
+```
+
+선택 문서는 기본값이 아니다. 아래 조건을 만족할 때만 추가한다.
+
+```text
+명령이 많아져 verification-matrix만으로 실행 기준을 찾기 어렵다.
+artifact가 실패 디버깅을 넘어 fixture나 replay 계약이 된다.
+hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경로가 있다.
+참고 프로젝트, 공개 명세, 오라클, workload를 구분해서 기록해야 한다.
+```
+
+선택 문서를 만들 때는 기존 문서에 넣으면 안 되는 이유와, 그 문서가 맡는 단일 출처를 함께 적는다.
+
 ---
 
 # AGENTS.md 템플릿
@@ -131,6 +151,7 @@ docs/
 - 구현 전에 표현 가능한 동작은 테스트를 먼저 쓴다.
 - 자동 테스트가 불가능하면 수동 검증 방법과 한계를 적는다.
 - 실패 시 원인을 찾을 수 있는 artifact를 남기는 방향을 우선한다.
+- artifact를 fixture나 장기 계약으로 승격할 때는 포맷, version, 민감정보 제거 기준을 문서화한다.
 
 ## 보안과 민감정보
 
@@ -330,12 +351,13 @@ Input
 
 이 문서는 기능 영역별 검증 방법의 단일 출처다.
 
-| 영역 | 검증 방법 | 명령 | 산출물 | 의미 | 한계 |
-| --- | --- | --- | --- | --- | --- |
-| 빌드 | compile | `<command>` | 없음 | 프로젝트가 컴파일됨 | 런타임 동작은 모름 |
-| 단위 로직 | unit test | `<command>` | 없음 | 핵심 규칙 검증 | 통합 경로는 모름 |
-| 첫 작업 흐름 | integration/e2e | `<command>` | `<artifact>` | 사용자 경로 검증 | 환경 의존 가능 |
-| 성능 | benchmark | `<command>` | `<artifact>` | 회귀 감지 | 절대 수치는 환경 의존 |
+| 영역 | 검증 방법 | 명령 | 기본 포함 | 산출물 | 의미 | 한계 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 빌드 | compile | `<command>` | 예 | 없음 | 프로젝트가 컴파일됨 | 런타임 동작은 모름 |
+| 단위 로직 | unit test | `<command>` | 예 | 없음 | 핵심 규칙 검증 | 통합 경로는 모름 |
+| 첫 작업 흐름 | integration/e2e | `<command>` | 예/아니오 | `<artifact>` | 사용자 경로 검증 | 환경 의존 가능 |
+| 성능 | benchmark | `<command>` | opt-in/PR gate | `<artifact>` | 회귀 감지 | 절대 수치는 환경 의존 |
+| 수동 확인 | manual | <절차> | 아니오 | `<artifact or note>` | 자동화 전까지의 확인 | 반복 검증 어려움 |
 
 ## PR마다 확인할 질문
 
@@ -343,6 +365,7 @@ Input
 - 자동 검증이 없다면 왜 없는가?
 - 수동 검증 방법은 무엇인가?
 - 실패 시 어떤 artifact를 보면 되는가?
+- 기본 검증인지, opt-in인지, 환경 의존인지, PR 차단 gate인지 명확한가?
 - 한계가 새로 생겼는가?
 ```
 
