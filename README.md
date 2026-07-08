@@ -6,6 +6,12 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 
 이 저장소는 새 프로젝트에 그대로 넣는 문서 세트가 아니라, 그런 문서 세트를 만들기 위한 템플릿 라이브러리다. 그래서 파일은 복사하기 쉬운 평면 구조로 둔다.
 
+이 저장소는 agent runtime, memory system, tool manager, model gateway, 또는 prompt collection을 만들려는 프로젝트가 아니다.
+
+목표는 어떤 에이전트 도구를 쓰더라도, 프로젝트가 에이전트에게 장기 작업을 맡길 수 있도록 `AGENTS.md`, 설계 문서, 검증 기준, 결정 기록, 인계(handoff) 기준을 세우는 것이다.
+
+즉, 이 저장소의 산출물은 실행 도구가 아니라 프로젝트 운영 문서(project operating docs)다.
+
 ## 읽는 순서
 
 1. `initial-design.md`
