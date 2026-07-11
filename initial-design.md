@@ -117,6 +117,7 @@ docs/architecture.md
 docs/implementation-plan.md
 docs/verification-matrix.md
 docs/pr-checklist.md
+docs/decisions.md
 ```
 
 ## 1. AGENTS.md
@@ -146,6 +147,7 @@ docs/pr-checklist.md
 - docs/implementation-plan.md
 - docs/verification-matrix.md
 - docs/pr-checklist.md
+- docs/decisions.md
 
 ## 원칙
 

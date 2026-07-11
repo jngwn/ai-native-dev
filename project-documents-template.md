@@ -12,6 +12,8 @@
 무엇을 통과해야 완료인지
 ```
 
+이 문서의 템플릿은 최소 baseline이다. 검증과 완료 보고에 artifact lifecycle, 성능, 환경 의존 조건이 필요하면 `verification-and-pr-template.md`로 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 확장한다. 두 형식을 독립된 규칙으로 유지하지 않는다.
+
 ---
 
 # 파일 구조
@@ -163,10 +165,10 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 ## Git / PR
 
-- main 직접 push 금지.
+- 기본 branch 변경 정책: <project policy>
 - 한 PR은 하나의 명확한 의도만 가진다.
 - PR 설명은 docs/pr-checklist.md를 따른다.
-- 커밋 메시지는 Conventional Commits를 쓴다.
+- commit message 규칙: <project policy or none>
 ```
 
 ---

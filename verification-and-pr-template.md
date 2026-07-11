@@ -4,6 +4,8 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 
 완료는 구현 여부가 아니라 검증된 상태여야 한다.
 
+`project-documents-template.md`의 검증 매트릭스와 PR 체크리스트는 최소 baseline이다. artifact lifecycle, 성능, 환경 의존 조건을 다루어야 하면 이 템플릿으로 두 문서를 확장하고, 프로젝트 안에서는 각각 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 단일 출처로 둔다.
+
 ---
 
 # 검증 매트릭스 템플릿
