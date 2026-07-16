@@ -117,7 +117,7 @@ GitHub PR이 없어도 에이전트의 완료 보고는 이 형식을 따른다.
 
 ## 산출물
 
-- <artifact path>
+- <artifact path, 없으면 없음>
 
 artifact 상태:
 

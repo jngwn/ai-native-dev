@@ -64,7 +64,7 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 
 새 프로젝트를 시작할 때는 먼저 `initial-design.md`의 초기 프롬프트를 에이전트에게 준다.
 
-그 다음 `project-documents-template.md`의 문서 세트를 프로젝트에 맞게 채우고, 구현은 `implementation-plan-template.md`의 첫 번째 세로 슬라이스부터 시작한다.
+그 다음 `project-documents-template.md`의 최소 문서 세트를 프로젝트에 맞게 채운다. 큰 phase를 micro-slice와 gate로 나눠야 하면 `implementation-plan-template.md`로 `docs/implementation-plan.md`를 확장한 뒤 첫 번째 세로 슬라이스부터 구현한다.
 
 ## 기존 프로젝트 개선하기
 

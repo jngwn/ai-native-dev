@@ -4,6 +4,8 @@
 
 좋은 구현 계획은 작업 목록이 아니라 검증 가능한 경로다.
 
+`project-documents-template.md`의 구현 계획은 최소 baseline이다. 큰 phase, 여러 micro-slice, 선행/종료 gate가 필요하면 이 템플릿으로 `docs/implementation-plan.md`를 확장하고, 프로젝트 안에서는 두 형식을 독립된 규칙으로 유지하지 않는다.
+
 ---
 
 # 기본 구조
@@ -21,13 +23,13 @@
 <입력>
 -> <핵심 처리>
 -> <출력>
--> <artifact>
+-> <artifact, 필요한 경우>
 ```
 
 ## 원칙
 
 - 가장 작은 end-to-end 경로를 먼저 만든다.
-- 실패 원인을 볼 수 있는 artifact를 먼저 만든다.
+- 테스트 실패 출력만으로 원인을 좁히기 어려운 경로는 실패 artifact를 먼저 만든다.
 - 각 단계는 완료 기준과 "아직 하지 않을 것"을 가진다.
 - 문서와 구현이 어긋나면 구현 완료로 보지 않는다.
 - 큰 phase는 여러 micro-slice로 나누고, 각 slice는 독립 검증과 종료 gate를 가진다.
@@ -56,8 +58,8 @@
 
 ### 산출물
 
-- <artifact path>
-- <snapshot/log/report>
+- <artifact path, 없으면 없음>
+- <snapshot/log/report, 필요한 경우>
 
 ### 완료 기준
 
@@ -71,7 +73,9 @@
 
 ### 사용자 결정 필요
 
-- <없으면 없음>
+이 단계 안에서만 필요한 질문을 적는다. 여러 단계나 책임 영역에 영향을 주는 보류 결정은 `docs/decisions.md`에 기록하고 여기서는 해당 항목을 가리킨다.
+
+- <단계 한정 질문, 없으면 없음>
 ```
 
 ---
@@ -237,7 +241,7 @@ artifact 위치가 문서화되어 있다.
 
 ```text
 통합/E2E 테스트 통과
-실패 artifact 생성
+필요한 경로에서 실패 artifact 생성
 문서의 첫 번째 세로 슬라이스와 일치
 ```
 

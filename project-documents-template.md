@@ -12,7 +12,7 @@
 무엇을 통과해야 완료인지
 ```
 
-이 문서의 템플릿은 최소 baseline이다. 검증과 완료 보고에 artifact lifecycle, 성능, 환경 의존 조건이 필요하면 `verification-and-pr-template.md`로 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 확장한다. 두 형식을 독립된 규칙으로 유지하지 않는다.
+이 문서의 템플릿은 최소 baseline이다. 큰 phase를 micro-slice와 선행/종료 gate로 나눠야 하면 `implementation-plan-template.md`로 `docs/implementation-plan.md`를 확장한다. 검증과 완료 보고에 artifact lifecycle, 성능, 환경 의존 조건이 필요하면 `verification-and-pr-template.md`로 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 확장한다. 프로젝트 안에서는 baseline과 확장형을 독립된 규칙으로 유지하지 않는다.
 
 ---
 
@@ -103,8 +103,11 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 ## 사용자 결정 필요
 
-- <결정 1>
-- <결정 2>
+이 섹션은 현재 작업을 막는 전역 질문의 index다. 세부 내용을 복사하지 말고 질문을 소유한 문서의 항목을 가리킨다.
+
+- <docs/architecture.md의 아키텍처 질문>
+- <docs/implementation-plan.md의 단계 한정 질문>
+- <docs/decisions.md의 장기 보류 결정>
 ```
 
 ---
@@ -154,7 +157,7 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 - 구현 전에 표현 가능한 동작은 테스트를 먼저 쓴다.
 - 자동 테스트가 불가능하면 수동 검증 방법과 한계를 적는다.
-- 실패 시 원인을 찾을 수 있는 artifact를 남기는 방향을 우선한다.
+- 테스트 실패 출력만으로 원인을 좁히기 어려운 경로는 artifact를 남긴다.
 - artifact를 fixture나 장기 계약으로 승격할 때는 포맷, version, 민감정보 제거 기준을 문서화한다.
 
 ## 보안과 민감정보
@@ -169,6 +172,12 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 - 한 PR은 하나의 명확한 의도만 가진다.
 - PR 설명은 docs/pr-checklist.md를 따른다.
 - commit message 규칙: <project policy or none>
+
+## 작업 상태와 인계
+
+- 인계 위치: <issue / PR / docs/implementation-plan.md / existing work document>
+- 다음 세션이 현재 대화를 볼 수 없다면 채팅에만 남긴 요약을 인계로 보지 않는다.
+- 인계만을 위한 새 문서는 기본으로 만들지 않는다.
 ```
 
 ---
@@ -259,6 +268,8 @@ Input
 
 ## 사용자 결정 필요
 
+이 문서에는 책임 경계와 데이터 흐름에 관한 질문만 둔다. 여러 단계에 영향을 주는 보류 결정은 `docs/decisions.md`에 기록하고 여기서는 해당 항목을 가리킨다.
+
 - <아키텍처 결정 1>
 - <아키텍처 결정 2>
 ````
@@ -275,7 +286,7 @@ Input
 ## 원칙
 
 - 전체 제품이 아니라 첫 번째 세로 슬라이스를 먼저 만든다.
-- 실패 원인을 볼 수 있는 테스트와 artifact를 먼저 만든다.
+- 테스트 실패 출력만으로 원인을 좁히기 어려운 경로는 실패 artifact를 먼저 만든다.
 - 각 단계는 "아직 하지 않을 것"을 가진다.
 
 ## 1단계: 책임 경계 고정
@@ -301,11 +312,16 @@ Input
 
 - <제외 항목>
 
-## 2단계: 실패 산출물과 테스트 기반
+사용자 결정 필요:
+
+- <이 단계에서만 필요한 질문, 없으면 없음>
+
+## 2단계: 필요한 실패 산출물과 테스트 기반
 
 목표:
 
-- 실패했을 때 볼 수 있는 snapshot/log/artifact를 만든다.
+- 외부 I/O, UI, E2E처럼 테스트 출력만으로 원인을 좁히기 어려운 경로에 snapshot/log/artifact를 만든다.
+- 순수 로직처럼 테스트 출력으로 충분한 경로는 이 단계를 생략하고 이유를 계획에 적는다.
 
 구현:
 
@@ -322,6 +338,10 @@ Input
 아직 하지 않는다:
 
 - <제외 항목>
+
+사용자 결정 필요:
+
+- <이 단계에서만 필요한 질문, 없으면 없음>
 
 ## 3단계: 첫 번째 세로 슬라이스
 
@@ -344,6 +364,10 @@ Input
 아직 하지 않는다:
 
 - <제외 항목>
+
+사용자 결정 필요:
+
+- <이 단계에서만 필요한 질문, 없으면 없음>
 ```
 
 ---
@@ -413,7 +437,7 @@ Input
 
 ### 산출물
 
-- <artifact path>
+- <artifact path, 없으면 없음>
 
 ### 한계
 
@@ -438,7 +462,8 @@ Input
 
 ## 작성 규칙
 
-- 이미 내려진 결정과 이유를 적는다.
+- 여러 단계나 책임 영역에 영향을 주는 보류 결정과 이미 내려진 결정의 이유를 적는다.
+- 단계 안에서만 필요한 질문은 `docs/implementation-plan.md`에 두고, 다른 문서에서는 같은 결정을 복사하지 않고 이 기록을 가리킨다.
 - 현재 구현이 과거 결정과 달라졌다면 "현행화"를 적는다.
 - 결정이 바뀌면 이전 기록을 지우지 말고 새 항목으로 남긴다.
 
