@@ -12,17 +12,31 @@ AI 네이티브 개발에서 에이전트에게 일을 오래 맡기기 위한 �
 
 즉, 이 저장소의 산출물은 실행 도구가 아니라 프로젝트 운영 문서(project operating docs)다.
 
-## 읽는 순서
+## 목적별 읽기 경로
 
-1. `initial-design.md`
-2. `project-documents-template.md`
-3. `agent-operating-protocol.md`
-4. `implementation-plan-template.md`
-5. `verification-and-pr-template.md`
-6. `decision-record-template.md`
-7. `reference-analysis-template.md`
-8. `terminology-guide.md`
-9. `repo-review-checklist.md`
+처음부터 모든 문서를 읽지 않는다. 현재 목적에 맞는 경로를 선택하고, 세부 역할은 아래 문서 역할 표에서 확인한다.
+
+```text
+새 프로젝트 설계:
+  initial-design.md
+  -> project-documents-template.md
+  -> 필요한 확장형 템플릿
+
+장기 작업 운영:
+  agent-operating-protocol.md
+  -> implementation-plan-template.md
+  -> verification-and-pr-template.md
+
+참고 프로젝트 분석:
+  reference-analysis-template.md
+  -> repo-review-checklist.md
+
+이 저장소 자체 평가:
+  repo-review-checklist.md
+
+문서 작성과 용어 검토:
+  terminology-guide.md
+```
 
 ## 문서 역할
 
