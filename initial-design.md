@@ -123,6 +123,8 @@ docs/pr-checklist.md
 docs/decisions.md
 ```
 
+이 절의 예시는 각 문서의 역할을 설명하는 축약본이다. 새 프로젝트에 복사할 baseline은 `project-documents-template.md`를 단일 출처로 따른다.
+
 ## 1. AGENTS.md
 
 에이전트가 가장 먼저 읽는 진입점이다.
@@ -138,7 +140,7 @@ docs/decisions.md
 모르면 어디를 봐야 하는지
 ```
 
-좋은 형태:
+축약 예시:
 
 ```md
 # AGENTS.md
@@ -524,15 +526,18 @@ docs/implementation-plan.md
 docs/verification-matrix.md
 ```
 
-더 작은 실험이면 하나의 `AGENTS.md`에 아래 섹션만 둬도 된다.
+더 작은 실험이면 `AGENTS.md`와 `docs/implementation-plan.md`만으로 시작한다.
 
 ```text
-목표
-하지 않을 것
-구현 순서
-검증 명령
-사용자 결정 필요
-완료 보고 형식
+AGENTS.md:
+  목표
+  하지 않을 것
+  사용자 결정 필요
+
+docs/implementation-plan.md:
+  구현 순서
+  검증 명령
+  완료 기준
 ```
 
 문서 체계는 프로젝트 크기에 맞춰야 한다.
