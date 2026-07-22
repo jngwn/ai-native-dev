@@ -78,14 +78,22 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 이 파일은 에이전트가 가장 먼저 읽는 index다. 실제 규칙 본문은 아래 문서를 단일 출처로 두고, 이 파일에는 규칙을 중복해서 적지 않는다.
 
-## 먼저 읽을 문서
+## 항상 읽을 문서
 
 - docs/project-rules.md
-- docs/architecture.md
 - docs/implementation-plan.md
 - docs/verification-matrix.md
-- docs/pr-checklist.md
-- docs/decisions.md
+
+## 작업별 문서 지도
+
+기능별 설계 문서나 선택 문서가 있을 때만 이 섹션을 둔다. 문서가 생겨도 모두 선행 독서 대상으로 나열하지 않고, 현재 작업의 책임 영역과 필요한 결정에 맞는 문서만 추가로 읽게 한다.
+
+| 작업 | 추가로 읽을 문서 |
+| --- | --- |
+| 책임 경계나 데이터 흐름 변경 | docs/architecture.md |
+| 작업 완료와 결과 보고 | docs/pr-checklist.md |
+| 장기 결정 확인이나 변경 | docs/decisions.md |
+| <기능 영역> | docs/features/<feature-name>.md |
 
 ## 작업 원칙
 
@@ -388,6 +396,11 @@ Input
 
 이 문서는 기능 영역별 검증 방법의 단일 출처다.
 
+## 문서 lifecycle
+
+- 현재 gate, 현재 증거, 현재 한계만 남기고 상세 구현 이력을 누적하지 않는다.
+- 같은 검증 상태를 다른 문서에 복사하지 않고, 기능 문서에서는 이 매트릭스의 관련 항목을 가리킨다.
+
 | 영역 | 검증 방법 | 명령 | 기본 포함 | 산출물 | 의미 | 한계 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 빌드 | compile | `<command>` | 예 | 없음 | 프로젝트가 컴파일됨 | 런타임 동작은 모름 |
@@ -397,6 +410,8 @@ Input
 | 성능 | benchmark | `<command>` | opt-in/PR gate | `<artifact>` | 회귀 감지 | 절대 수치는 환경 의존 |
 | 수동 확인 | manual | <절차> | 아니오 | `<artifact or note>` | 자동화 전까지의 확인 | 반복 검증 어려움 |
 
+저장소 밖 설정에 의존하는 gate의 외부 강제 상태(external enforcement state)는 검증 정의가 있는지, 실제로 실행되는지, 실패 시 진행을 차단하는지를 구분해 한계에 적는다.
+
 ## PR마다 확인할 질문
 
 - 이 변경은 어느 검증 영역에 연결되는가?
@@ -405,6 +420,8 @@ Input
 - 실패 시 어떤 artifact를 보면 되는가?
 - 기본 검증인지, opt-in인지, 환경 의존인지, PR 차단 gate인지 명확한가?
 - 환경 의존 검증의 실행 전제와 결과를 무효화하는 조건이 명확한가?
+- 검증 상태가 바뀌었다면 과거 설명을 누적하지 않고 현재 상태로 현행화했는가?
+- 저장소 밖 설정에 의존하는 gate라면 실제 강제 상태를 확인했는가?
 - 원격 검증이 실패해도 필요한 artifact에 접근할 수 있는가?
 - 한계가 새로 생겼는가?
 ```
