@@ -82,7 +82,7 @@ PR 설명 기준의 단일 출처
 사용자 결정 필요:
 - 핵심 UX 방향
 - 공개 API 호환성
-- 새 런타임 의존성
+- 새 의존성
 - 라이선스 위험이 있는 reference 사용
 - 보안/개인정보 정책
 - 장기 구조를 바꾸는 아키텍처 결정
@@ -145,12 +145,15 @@ docs/decisions.md
 ```md
 # AGENTS.md
 
-## 먼저 읽을 문서
+## 항상 읽을 문서
 
 - docs/project-rules.md
-- docs/architecture.md
 - docs/implementation-plan.md
 - docs/verification-matrix.md
+
+## 작업에 따라 추가로 읽을 문서
+
+- docs/architecture.md
 - docs/pr-checklist.md
 - docs/decisions.md
 
@@ -183,7 +186,7 @@ docs/decisions.md
 특히 중요한 규칙:
 
 ```text
-새 의존성은 사용 전 이유를 적는다.
+새 의존성은 사용 전 이유와 대안을 적고 사용자 확인을 받는다.
 관련 문서를 갱신하지 않은 구현은 완료가 아니다.
 임시 패치는 왜 임시인지와 나중에 어떻게 제거할지 적는다.
 자동 검증이 불가능하면 수동 검증 방법과 한계를 적는다.
@@ -303,6 +306,8 @@ artifact
 사용자 결정 필요 여부
 후속 작업
 ```
+
+후속 작업의 세부 내용은 `docs/implementation-plan.md`를 단일 출처로 두고, 완료 보고에서는 관련 항목을 가리킨다.
 
 좋은 체크리스트는 에이전트가 허술하게 "완료했습니다"라고 말하지 못하게 한다.
 
@@ -430,7 +435,7 @@ artifact
 되돌리기 어려운 선택이나 장기 보류 결정이 있다면 결정 기록에 연결되어 있는가?
 ```
 
-하나라도 없으면 구현 전에 문서를 고친다.
+프로젝트에 적용되는 항목이 빠졌으면 구현 전에 문서를 고친다. 적용되지 않는 항목은 문서나 규칙을 억지로 추가하지 말고 "해당 없음"인 이유를 남긴다.
 
 ---
 
@@ -526,16 +531,18 @@ docs/implementation-plan.md
 docs/verification-matrix.md
 ```
 
-더 작은 실험이면 `AGENTS.md`와 `docs/implementation-plan.md`만으로 시작한다.
+더 작은 실험이면 `project-documents-template.md`의 작은 실험용 2문서 구성에 따라 `AGENTS.md`와 `docs/implementation-plan.md`만으로 시작한다.
 
 ```text
 AGENTS.md:
   목표
+  프로젝트 전체 규칙과 중단 조건
   하지 않을 것
-  사용자 결정 필요
+  전역 사용자 결정 필요
 
 docs/implementation-plan.md:
   구현 순서
+  단계 한정 사용자 결정 필요
   검증 명령
   완료 기준
 ```
