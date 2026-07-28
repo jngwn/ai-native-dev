@@ -12,13 +12,21 @@
 무엇을 통과해야 완료인지
 ```
 
-이 문서의 템플릿은 최소 baseline이다. 큰 phase를 micro-slice와 선행/종료 gate로 나눠야 하면 `implementation-plan-template.md`로 `docs/implementation-plan.md`를 확장한다. 검증과 완료 보고에 artifact lifecycle, 성능, 환경 의존 조건이 필요하면 `verification-and-pr-template.md`로 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 확장한다. 프로젝트 안에서는 baseline과 확장형을 독립된 규칙으로 유지하지 않는다.
+이 문서는 최소·표준·조건부 구성을 함께 제공한다. 프로젝트는 필요한 문서만 복사하고, 더 상세한 단계별 gate나 evidence가 필요하면 확장형 템플릿으로 현재 단일 출처를 보강한다. 기본형과 확장형을 독립된 규칙으로 함께 유지하지 않는다.
 
 ---
 
 # 파일 구조
 
-권장 최소 구조:
+작은 실험의 최소 구조:
+
+```text
+AGENTS.md
+docs/
+  implementation-plan.md
+```
+
+여러 책임 영역이나 세션에 걸쳐 개발하는 프로젝트의 표준 구조:
 
 ```text
 AGENTS.md
@@ -27,23 +35,21 @@ docs/
   architecture.md
   implementation-plan.md
   verification-matrix.md
-  pr-checklist.md
-  decisions.md
 ```
 
-작은 실험이면 `AGENTS.md`와 `docs/implementation-plan.md`만으로 시작해도 된다. 이 경우 아래의 "작은 실험용 2문서 구성"을 사용하고, 존재하지 않는 문서를 full baseline의 문서 지도에 남기지 않는다.
+작은 실험은 아래의 "작은 실험용 2문서 구성"을 사용한다. 표준 구조도 문서 수 자체가 목적은 아니며, 한 문서에서 계약의 소유권을 명확히 유지할 수 있다면 불필요하게 나누지 않는다.
 
-큰 프로젝트라면 기능별 설계 문서를 추가한다.
+다음 문서는 조건이 있을 때만 추가한다.
 
 ```text
 docs/
+  pr-checklist.md
+  decisions.md
   features/
     <feature-name>.md
   rfcs/
     0001-<decision>.md
 ```
-
-필요할 때만 추가하는 선택 문서:
 
 ```text
 docs/development-commands.md
@@ -52,16 +58,19 @@ docs/performance-budget.md
 docs/references.md
 ```
 
-선택 문서는 기본값이 아니다. 아래 조건을 만족할 때만 추가한다.
+조건부 문서는 기본값이 아니다. 아래 조건을 만족할 때만 추가한다.
 
 ```text
+반복되는 완료 보고 형식이나 PR gate가 필요하다.
+되돌리기 어렵거나 여러 책임 영역에 영향을 주는 결정을 보존해야 한다.
+기능별 계약이 기존 architecture나 계획 문서에서 독립된 단일 출처를 필요로 한다.
 명령이 많아져 verification-matrix만으로 실행 기준을 찾기 어렵다.
 artifact가 실패 디버깅을 넘어 fixture나 replay 계약이 된다.
 hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경로가 있다.
 참고 프로젝트, 공개 명세, 오라클, workload를 구분해서 기록해야 한다.
 ```
 
-선택 문서를 만들 때는 기존 문서에 넣으면 안 되는 이유와, 그 문서가 맡는 단일 출처를 함께 적는다.
+조건부 문서를 만들 때는 기존 문서에 넣으면 안 되는 이유와, 그 문서가 맡는 단일 출처를 함께 적는다.
 
 ---
 
@@ -86,7 +95,7 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 ## 작업별 문서 지도
 
-기능별 설계 문서나 선택 문서가 있을 때만 이 섹션을 둔다. 문서가 생겨도 모두 선행 독서 대상으로 나열하지 않고, 현재 작업의 책임 영역과 필요한 결정에 맞는 문서만 추가로 읽게 한다.
+작업별 또는 조건부 문서가 있을 때만 이 섹션을 둔다. 실제로 존재하는 문서만 표에 남기고, 현재 작업의 책임 영역과 필요한 결정에 맞는 문서만 추가로 읽게 한다.
 
 | 작업 | 추가로 읽을 문서 |
 | --- | --- |
@@ -113,16 +122,14 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 이 섹션은 현재 작업을 막는 전역 질문의 index다. 세부 내용을 복사하지 말고 질문을 소유한 문서의 항목을 가리킨다.
 
-- <docs/architecture.md의 아키텍처 질문>
-- <docs/implementation-plan.md의 단계 한정 질문>
-- <docs/decisions.md의 장기 보류 결정>
+- <질문을 소유한 문서와 항목, 없으면 없음>
 ```
 
 ---
 
 # 작은 실험용 2문서 구성
 
-`AGENTS.md`와 `docs/implementation-plan.md`만 두는 실험은 위의 full baseline `AGENTS.md`를 그대로 복사하지 않는다. 생략한 문서를 가리키지 않고, 프로젝트 전체 규칙과 전역 질문은 `AGENTS.md`, 구현 순서와 단계 한정 질문 및 검증 명령은 `docs/implementation-plan.md`가 소유한다.
+`AGENTS.md`와 `docs/implementation-plan.md`만 두는 실험은 위의 표준 구성 `AGENTS.md`를 그대로 복사하지 않는다. 생략한 문서를 가리키지 않고, 프로젝트 전체 규칙과 전역 질문은 `AGENTS.md`, 프로젝트가 정한 현재 범위와 단계 한정 질문 및 검증 명령은 `docs/implementation-plan.md`가 소유한다.
 
 ```md
 # AGENTS.md
@@ -185,7 +192,6 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 ## 기본 규칙
 
-- 작은 단위로 변경한다.
 - 관련 없는 리팩터링을 섞지 않는다.
 - 분석, 진단, review 요청을 수정 요청으로 해석하지 않는다.
 - 새 의존성은 이유와 대안을 적고 사용자 확인 후 추가한다.
@@ -194,10 +200,21 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 ## 코드 구조
 
-- 새 기능은 가장 가까운 책임 영역에 둔다.
-- 한 파일이 여러 이유로 변경되기 시작하면 목적별로 나눈다.
-- facade/public entry는 얇게 유지한다.
-- 내부 구현 타입을 다른 레이어 public API로 노출하지 않는다.
+프로젝트에 실제로 존재하는 구조 규칙만 적는다. 보편적인 layering이나 파일 분리 방식을 기본값으로 두지 않는다.
+
+| 책임 영역 | 소유 경로 | public boundary | 금지 dependency 또는 노출 |
+| --- | --- | --- | --- |
+| <영역> | <path> | <public API / 해당 없음> | <금지 항목 / 해당 없음> |
+
+## 생성·동기화 파일
+
+단일 출처에서 생성되거나 다른 경로 또는 저장소로 동기화되는 파일이 있을 때만 이 섹션을 둔다. 파생본을 독립된 단일 출처로 취급하지 않는다.
+
+| 단일 출처 | 파생 경로 또는 외부 대상 | 갱신 방법 | drift 검증 | 직접 편집 |
+| --- | --- | --- | --- | --- |
+| <canonical path> | <generated path / synced repository / distribution target> | `<generate-or-sync-command>` | `<check-command>` | <금지 / 허용 조건> |
+
+외부 대상에 접근할 수 없으면 동기화됐다고 간주하지 않는다. 완료 보고에는 확인하지 못한 대상과 남은 drift 위험을 적는다.
 
 ## 테스트
 
@@ -220,8 +237,7 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 ## Git / PR
 
 - 기본 branch 변경 정책: <project policy>
-- 한 PR은 하나의 명확한 의도만 가진다.
-- PR 설명은 docs/pr-checklist.md를 따른다.
+- PR 설명 정책: <docs/pr-checklist.md / project policy / 없음>
 - commit message 규칙: <project policy or none>
 
 ## 작업 상태와 인계
@@ -246,7 +262,7 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 <사용자 관점에서 무엇을 가능하게 할지 설명한다.>
 
-## 첫 번째 세로 슬라이스
+## 첫 번째 사용자 작업 흐름
 
 ```text
 <사용자 입력>
@@ -254,55 +270,29 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 -> <출력/저장/화면>
 ```
 
-이 경로가 처음 구현할 최소 제품이다.
+이 흐름이 현재 검증할 최소 제품 범위다.
 
 ## 주요 모듈
 
-### Core
+프로젝트에 실제로 존재하는 모듈과 경계만 적는다.
 
-책임:
-
-- <도메인 로직>
-- <검증 가능한 순수 동작>
-
-몰라야 하는 것:
-
-- <UI>
-- <플랫폼 API>
-- <네트워크 또는 저장소 세부사항>
-
-### Runtime
-
-책임:
-
-- <Core와 외부 세계 연결>
-- <실행 중 live resource 관리>
-
-몰라야 하는 것:
-
-- <Core private storage>
-- <UI rendering 세부사항>
-
-### UI / Interface
-
-책임:
-
-- <사용자 입력>
-- <상태 표시>
-- <명령 전달>
-
-몰라야 하는 것:
-
-- <Core 내부 자료구조>
-- <저장소 내부 포맷>
+| 모듈 또는 책임 영역 | 책임 | 알아도 되는 것 | 몰라야 하는 것 |
+| --- | --- | --- | --- |
+| <이름> | <소유하는 동작과 상태> | <허용 dependency> | <금지 dependency, 내부 구현 또는 해당 없음> |
 
 ## 경계 검증
 
 | 경계 계약 | 금지 대상 | 검증 매트릭스 항목 |
 | --- | --- | --- |
-| <예: Core는 UI 타입을 import하지 않는다> | <금지 dependency/import/public exposure> | <책임 경계 검증 항목> |
+| <경계 설명> | <금지 dependency/import/public exposure> | <책임 경계 검증 항목> |
 
 기계적으로 표현할 수 있는 "몰라야 하는 것"은 `docs/verification-matrix.md`의 boundary/static/contract gate에 연결한다. 자동 검증할 수 없는 경계는 이유와 대체 review 절차를 적는다.
+
+기존 구현에 경계 위반이 이미 있을 때만 현재 예외와 축소 조건을 적는다. 예외가 있다는 이유로 신규 위반까지 허용하지 않는다.
+
+| 현재 예외 | 필요한 이유 | baseline 또는 allowlist | 신규 예외 정책 | 제거 조건 |
+| --- | --- | --- | --- | --- |
+| <경로 또는 dependency> | <즉시 제거할 수 없는 이유> | <위치, 없으면 없음> | <금지 / 사용자 승인 필요> | <어떤 변경이나 gate가 끝나면 제거하는가> |
 
 ## 데이터 흐름
 
@@ -342,7 +332,7 @@ Input
 ```md
 # 구현 계획
 
-이 문서는 구현 순서와 완료 기준의 단일 출처다.
+이 문서는 프로젝트가 정한 현재와 다음 범위, 완료 기준의 단일 출처다.
 
 ## 원칙
 
@@ -401,16 +391,15 @@ Input
 - 현재 증거는 gate가 사용하는 테스트나 artifact의 종류와 접근 경로를 뜻한다. 작업별 실행 결과는 PR 또는 CI가 소유하며 이 문서에 복사하지 않는다.
 - 같은 gate와 증거 경로를 다른 문서에 복사하지 않고, 기능 문서에서는 이 매트릭스의 관련 항목을 가리킨다.
 
-| 영역 | 검증 방법 | 명령 | 기본 포함 | 산출물 | 의미 | 한계 |
+| 영역 | 검증 방법 | 명령 | 적용 조건 | 산출물 | 의미 | 한계 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 빌드 | compile | `<command>` | 예 | 없음 | 프로젝트가 컴파일됨 | 런타임 동작은 모름 |
-| 책임 경계 | boundary/static/contract check | `<command>` | 예/해당 없음 | 없음 | 금지 dependency/import/public exposure 방지 | 동적 runtime 결합은 별도 검증 필요 |
-| 단위 로직 | unit test | `<command>` | 예 | 없음 | 핵심 규칙 검증 | 통합 경로는 모름 |
-| 첫 작업 흐름 | integration/e2e | `<command>` | 예/아니오 | `<artifact>` | 사용자 경로 검증 | 환경 의존 가능 |
-| 성능 | benchmark | `<command>` | opt-in/PR gate | `<artifact>` | 회귀 감지 | 절대 수치는 환경 의존 |
-| 수동 확인 | manual | <절차> | 아니오 | `<artifact or note>` | 자동화 전까지의 확인 | 반복 검증 어려움 |
+| <프로젝트 영역> | <자동/정적/수동 등 실제 방법> | `<command-or-procedure>` | <변경 경로, 기능, 환경 또는 opt-in 조건> | `<artifact or none>` | <무엇을 증명하는가> | <증명하지 못하는 것> |
 
 저장소 밖 설정에 의존하는 gate의 외부 강제 상태(external enforcement state)는 검증 정의가 있는지, 실제로 실행되는지, 실패 시 진행을 차단하는지를 구분해 한계에 적는다.
+
+일반적으로 쓰인다는 이유만으로 format, lint, unit, E2E 같은 행을 미리 만들지 않는다. 프로젝트에 실제로 존재하는 gate와 수동 절차만 적는다.
+
+`적용 조건`에는 gate를 실행하거나 건너뛰게 하는 변경 경로, 기능, 환경 또는 opt-in 조건을 구체적으로 적는다. 기계적으로 표현할 architecture boundary가 있으면 `docs/architecture.md`의 계약을 검증하는 행을 추가한다. 생성·동기화 파일이 있으면 `docs/project-rules.md`의 해당 계약을 가리키는 sync/drift gate를 추가한다.
 
 ## PR마다 확인할 질문
 
@@ -418,7 +407,7 @@ Input
 - 자동 검증이 없다면 왜 없는가?
 - 수동 검증 방법은 무엇인가?
 - 실패 시 어떤 artifact를 보면 되는가?
-- 기본 검증인지, opt-in인지, 환경 의존인지, PR 차단 gate인지 명확한가?
+- 각 gate의 적용 조건과 이번 변경에서 실행하거나 건너뛴 이유가 명확한가?
 - 환경 의존 검증의 실행 전제와 결과를 무효화하는 조건이 명확한가?
 - gate, 증거 경로, 한계가 바뀌었다면 과거 설명을 누적하지 않고 현재 상태로 현행화했는가?
 - 저장소 밖 설정에 의존하는 gate라면 실제 강제 상태를 확인했는가?
@@ -429,6 +418,8 @@ Input
 ---
 
 # docs/pr-checklist.md 템플릿
+
+반복되는 완료 보고 형식이나 PR gate가 필요할 때만 사용한다. 없으면 프로젝트 `AGENTS.md`의 완료 보고 원칙을 따른다.
 
 ````md
 # PR 체크리스트
@@ -501,6 +492,8 @@ Input
 ---
 
 # docs/decisions.md 템플릿
+
+되돌리기 어렵거나 여러 책임 영역에 영향을 주는 결정이 있을 때만 사용한다.
 
 ```md
 # 결정 기록

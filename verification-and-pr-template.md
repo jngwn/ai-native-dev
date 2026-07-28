@@ -4,7 +4,7 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 
 완료는 구현 여부가 아니라 검증된 상태여야 한다.
 
-`project-documents-template.md`의 검증 매트릭스와 PR 체크리스트는 최소 baseline이다. artifact lifecycle, 성능, 환경 의존 조건을 다루어야 하면 이 템플릿으로 두 문서를 확장하고, 프로젝트 안에서는 각각 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 단일 출처로 둔다.
+`project-documents-template.md`에는 간결한 검증 매트릭스와 조건부 PR 체크리스트가 있다. artifact lifecycle, 성능, 환경 의존 조건을 다루어야 하면 현재 사용하는 문서만 이 템플릿으로 확장하고, 프로젝트 안에서는 각각 `docs/verification-matrix.md`와 `docs/pr-checklist.md`를 단일 출처로 둔다.
 
 ---
 
@@ -25,25 +25,15 @@ AI 에이전트에게 개발을 맡길 때 가장 위험한 말은 "완료했습
 - 같은 gate와 증거 경로를 여러 문서에 복사하지 않는다. 검증 매트릭스를 검증 기준의 단일 출처로 두고 기능 문서는 해당 행을 가리킨다.
 - 서로 독립적으로 통과하거나 실패할 수 있는 검증은 별도 행으로 나눈다. 상세 설계가 길어지면 관련 문서에 두고 현재 gate만 요약한다.
 
-## 기본 검증
+## 프로젝트 gate
 
-| 영역 | 명령 | 기본 포함 | 산출물 | 의미 | 한계 |
+| 영역 | 명령 | 적용 조건 | 산출물 | 의미 | 한계 |
 | --- | --- | --- | --- | --- | --- |
-| 포맷 | `<format-check>` | 예 | 없음 | 스타일이 일관됨 | 동작 검증 아님 |
-| 린트 | `<lint>` | 예 | 없음 | 정적 오류 방지 | 런타임 오류는 모름 |
-| 책임 경계 | `<boundary-or-contract-check>` | 예/해당 없음 | 없음 | 금지 dependency/import/public exposure 방지 | 동적 runtime 결합은 별도 검증 필요 |
-| 단위 테스트 | `<unit-test>` | 예 | 없음 | 작은 규칙 검증 | 통합 경로는 모름 |
-| 통합 테스트 | `<integration-test>` | 예/아니오 | `<artifact>` | 주요 경로 검증 | 환경 차이 가능 |
-| E2E | `<e2e-test>` | 예/opt-in | `<artifact>` | 사용자 작업 흐름 검증 | 느리거나 flaky 가능 |
-| 성능/스트레스 | `<perf-or-stress>` | opt-in/PR gate | `<artifact>` | 회귀 감지 | 환경 영향 가능 |
+| <프로젝트 영역> | `<command-or-procedure>` | <변경 경로, 기능, 환경 또는 opt-in 조건> | `<artifact or none>` | <무엇을 증명하는가> | <증명하지 못하는 것> |
 
-기계적으로 표현할 책임 경계가 없으면 책임 경계 행을 "해당 없음"으로 두고, 이유와 대체 review 절차를 한계에 적는다.
+일반적으로 쓰인다는 이유만으로 format, lint, unit, E2E 같은 행을 미리 만들지 않는다. 프로젝트에 실제로 존재하는 gate와 수동 절차만 적는다. 기계적으로 표현할 책임 경계가 있으면 해당 계약을 검증하는 행을 추가하고, 없으면 만들지 않는다.
 
-## 기능별 검증
-
-| 기능 | 검증 방법 | 명령 | 기본 포함 | 산출물 | 완료 기준 | 한계 |
-| --- | --- | --- | --- | --- | --- | --- |
-| <기능> | <unit/integration/e2e/manual> | `<command>` | <예/아니오/opt-in/PR gate> | `<path>` | <통과할 명령, 관찰 결과 또는 artifact 조건> | <한계> |
+`적용 조건`에는 gate를 실행하거나 건너뛰게 하는 조건을 구체적으로 적는다. 단순히 기본, opt-in, PR gate라고 분류하는 것만으로는 어떤 변경에 적용되는지 알 수 없으므로 변경 경로, 기능, 환경 또는 명시적 opt-in 조건을 함께 적는다.
 
 ## 수동 검증
 
@@ -100,13 +90,15 @@ CI workflow, branch rule, repository permission, secret, scheduled job처럼 저
 
 새 테스트 파일, fixture, benchmark, 수동 checklist를 추가하면 같은 변경에서 검증 명령이나 PR gate에 연결한다. 바로 연결할 수 없으면 이유, 대체 검증, 후속 연결 조건을 적는다.
 
+단일 출처에서 생성되거나 다른 경로 또는 저장소로 동기화되는 파일을 추가하면 `docs/project-rules.md`에 단일 출처와 갱신 방법을 기록하고, 같은 변경에서 sync/drift gate에 연결한다.
+
 ## PR마다 확인할 질문
 
 - 이 변경은 어느 검증 영역에 연결되는가?
 - 검증 명령을 실행했는가?
 - 실패 시 어떤 산출물을 보면 되는가?
 - 자동화하지 못한 영역이 있는가?
-- 검증이 기본 경로인지, opt-in인지, 환경 의존인지, PR 차단 gate인지 분명한가?
+- 각 gate의 적용 조건과 이번 변경에서 실행하거나 건너뛴 이유가 분명한가?
 - 환경 의존 검증의 실행 전제와 결과 무효화 조건을 확인했는가?
 - gate, 증거 경로, 한계가 바뀌었다면 과거 설명을 누적하지 않고 현재 상태로 현행화했는가?
 - 저장소 밖 설정에 의존하는 gate라면 실제 강제 상태를 확인했는가?
@@ -190,6 +182,8 @@ artifact 상태:
 
 ## 안정성 / 성능 영향
 
+관련 경로가 있을 때만 이 섹션을 둔다.
+
 hot path, queue, cache, background task, lock, I/O, thread hop에 영향:
 
 - <없으면 없음>
@@ -227,55 +221,9 @@ bounded 확인:
 
 ---
 
-# 좋은 완료 보고 예시
+# Gate 선택 원칙
 
-```text
-완료:
-  config loader에 theme.mode 옵션을 추가했습니다.
-
-변경:
-  - <config loader file>
-  - <config schema file>
-  - docs/configuration.md
-  - docs/verification-matrix.md
-
-검증:
-  - <test command for changed area>: 통과
-  - <lint or static check command>: 통과
-
-산출물:
-  - 없음
-
-한계:
-  - runtime reload는 아직 구현하지 않았습니다.
-  - docs/implementation-plan.md에서 후속 단계로 남겼습니다.
-```
-
-나쁜 완료 보고:
-
-```text
-완료했습니다.
-```
-
-이 보고는 무엇을 검증했는지, 무엇이 남았는지, 어떤 문서가 바뀌었는지 알 수 없다.
-
----
-
-# 검증 명령 선택 기준
-
-작업 종류별 최소 검증:
-
-| 작업 종류 | 최소 검증 |
-| --- | --- |
-| 문서만 변경 | markdown 링크/맞춤법 확인 또는 `git diff --check` |
-| 설정 변경 | 설정 parser test + 문서 갱신 |
-| 순수 로직 | unit test |
-| 외부 I/O | integration test + failure artifact |
-| UI 변경 | screenshot 또는 수동 검증 기록 |
-| 성능 변경 | benchmark 또는 profile artifact |
-| 보안/권한 변경 | threat model 문서 + negative test |
-| 저장 포맷 변경 | migration/compat test |
-| queue/cache/background task 변경 | bounded test + cleanup/rollback artifact |
+이 템플릿은 작업 종류별 테스트 방식을 기본값으로 정하지 않는다. 각 gate는 프로젝트가 막으려는 실패, 실제 실행 가능한 명령이나 절차, 관찰할 evidence를 근거로 선택한다.
 
 ---
 
@@ -283,21 +231,11 @@ bounded 확인:
 
 artifact는 실패 원인을 좁히기 위해 남긴다.
 
-좋은 artifact:
+| artifact 종류 | 필요한 내용 | 접근 경로 | 민감정보 제거 | 보존 조건 |
+| --- | --- | --- | --- | --- |
+| <종류> | <원인 분석에 필요한 프로젝트별 정보> | <path or URL> | <제거하거나 일반화할 값> | <기간 또는 승격 조건> |
 
-```text
-입력
-출력
-요약
-오류 메시지
-환경 정보
-```
-
-주의:
-
-```text
 토큰, 쿠키, 개인키, 홈 디렉터리 세부 경로, 사설 서버 주소는 제거하거나 일반화한다.
-```
 
 artifact는 테스트를 대체하지 않는다.
 

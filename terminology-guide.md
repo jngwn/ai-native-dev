@@ -82,7 +82,6 @@ runtime 동작은 이번 단계에서 바꾸지 않는다.
 ```text
 인계(handoff)
 인계 요약(handoff summary)
-세로 슬라이스(vertical slice)
 범위(scope)
 범위 밖(non-goals)
 결정 기록(decision record)
