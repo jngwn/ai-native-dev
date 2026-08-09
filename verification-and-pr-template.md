@@ -94,6 +94,10 @@ CI workflow, branch rule, repository permission, secret, scheduled job처럼 저
 
 단일 출처에서 생성되거나 다른 경로 또는 저장소로 동기화되는 파일을 추가하면 `docs/project-rules.md`에 단일 출처와 갱신 방법을 기록하고, 같은 변경에서 sync/drift gate에 연결한다.
 
+`AGENTS.md`, `README.md`나 동등한 진입점의 문서 지도가 커져 경로·anchor drift를 놓칠 위험이 있거나 같은 오류가 반복되면, 실제로 참조하는 문서만 확인하는 무결성 gate에 연결한다. 특정 Markdown 검사 도구를 모든 프로젝트의 기본값으로 두지 않는다.
+
+배포물에 제3자 코드나 자산이 포함되면 `docs/project-rules.md`나 조건부 라이선스 문서가 소유하는 출처, version, 라이선스, 수정·파생 여부, notice와 attribution 계약을 실제 배포 artifact와 대조하는 gate에 연결한다. 배포물에 포함되지 않는 dev/test 도구에는 적용하지 않는다.
+
 같은 계약 위반이 반복되고 프로젝트가 기계적으로 판정할 invariant를 정했다면 설명 문구를 누적하지 않고 gate에 연결한다. 적용 조건, 실패 의미, evidence와 현재 예외를 함께 적는다. 판정 기준이나 변경 권한이 없으면 임의의 proxy gate를 만들지 않고 사용자 결정 또는 review 절차로 남긴다.
 
 ## PR마다 확인할 질문
@@ -263,10 +267,12 @@ artifact는 상태에 따라 다르게 다룬다.
 | 상태 | 의미 | 필요한 문서화 |
 | --- | --- | --- |
 | local-only | 로컬 디버깅 보조 자료 | 경로와 보는 법 |
-| fixture로 승격 | 회귀 테스트 입력/기대값으로 커밋됨 | 생성 방법, 갱신 방법, 민감정보 제거 기준 |
+| fixture로 승격 | 회귀 테스트 입력/기대값으로 커밋됨 | 생성 방법, 갱신 방법, 민감정보 제거 기준, 제거 후 의미 보존 확인 |
 | 장기 schema 계약 | replay, inspector, 외부 도구가 읽는 포맷 | version, 호환성 규칙, 깨지는 변경 기준 |
 
 로컬 artifact를 fixture로 승격할 때는 민감정보가 없는지 확인한다. 홈 디렉터리, 사용자 이름, 서버 주소, 토큰, 쿠키, 개인키, 세션 값은 제거하거나 일반화한다.
+
+민감정보 제거·익명화로 fixture나 replay artifact의 구조 또는 identity가 바뀌면, 처리된 artifact로 원래의 회귀 결과나 replay 결과가 유지되는지 다시 검증한다. 검증할 수 없으면 해당 artifact를 evidence로 승격하지 않고 이유와 남은 위험을 보고한다.
 
 artifact 포맷의 의미가 바뀌면 PR 보고에 다음을 적는다.
 

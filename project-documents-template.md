@@ -56,6 +56,7 @@ docs/development-commands.md
 docs/artifact-format.md
 docs/performance-budget.md
 docs/references.md
+docs/third-party-licenses.md
 ```
 
 조건부 문서는 기본값이 아니다. 아래 조건을 만족할 때만 추가한다.
@@ -68,6 +69,7 @@ docs/references.md
 artifact가 실패 디버깅을 넘어 fixture나 replay 계약이 된다.
 hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경로가 있다.
 참고 프로젝트, 공개 명세, 오라클, workload를 구분해서 기록해야 한다.
+배포물에 포함되는 제3자 코드나 자산의 출처, 라이선스, 고지 의무를 별도로 관리해야 한다.
 ```
 
 조건부 문서를 만들 때는 기존 문서에 넣으면 안 되는 이유와, 그 문서가 맡는 단일 출처를 함께 적는다.
@@ -233,6 +235,8 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 - 공개 명세, 공식 문서, 제품 동작은 동작과 계약을 이해하는 근거로 사용할 수 있다.
 - 참고 코드의 표현, 자료구조, 함수 분해를 그대로 옮기지 않는다.
 - 라이선스나 허용 범위가 불명확하면 사용을 멈추고 사용자에게 보고한다.
+- 배포물에 제3자 코드나 자산을 포함할 때는 출처(provenance), version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution, 배포 경로를 소유 문서에 기록한다.
+- 제3자 항목의 라이선스나 고지 의무를 기계적으로 판정할 수 있으면 `docs/verification-matrix.md`의 적용되는 gate에 연결한다.
 
 ## Git / PR
 
@@ -400,6 +404,12 @@ Input
 일반적으로 쓰인다는 이유만으로 format, lint, unit, E2E 같은 행을 미리 만들지 않는다. 프로젝트에 실제로 존재하는 gate와 수동 절차만 적는다.
 
 `적용 조건`에는 gate를 실행하거나 건너뛰게 하는 변경 경로, 기능, 환경 또는 opt-in 조건을 구체적으로 적는다. 기계적으로 표현할 architecture boundary가 있으면 `docs/architecture.md`의 계약을 검증하는 행을 추가한다. 생성·동기화 파일이 있으면 `docs/project-rules.md`의 해당 계약을 가리키는 sync/drift gate를 추가한다.
+
+`AGENTS.md`, `README.md`나 동등한 진입점의 문서 지도가 커져 경로·anchor drift를 놓칠 위험이 있거나 같은 오류가 반복되면, 실제로 참조하는 문서만 확인하는 무결성 gate를 추가한다. 모든 프로젝트에 특정 Markdown 검사 도구를 기본으로 요구하지 않는다.
+
+배포물에 제3자 코드나 자산이 포함되면, 해당 항목의 출처, version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution이 실제 배포 artifact와 맞는지 확인하는 gate를 추가한다. 배포물에 포함되지 않는 dev/test 도구에는 이 gate를 적용하지 않는다.
+
+민감정보를 제거·익명화한 fixture나 replay artifact는 처리 후에도 원래의 회귀 결과나 replay 결과를 유지하는지 확인한다. 검증할 수 없으면 해당 artifact를 evidence로 승격하지 않고 이유와 남은 위험을 보고한다.
 
 `실행·접근 주체`에는 누가 명령이나 절차를 실행하고 agent가 evidence를 직접 조회할 수 있는지 적는다. 사람 확인이 필요하면 전달할 결과와 인계 위치를 한계에 적고, agent가 직접 확인하지 않은 결과를 검증 완료로 간주하지 않는다.
 
