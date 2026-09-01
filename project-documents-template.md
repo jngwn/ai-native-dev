@@ -101,7 +101,7 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 | 작업 | 추가로 읽을 문서 |
 | --- | --- |
-| 책임 경계나 데이터 흐름 변경 | docs/architecture.md |
+| 책임 영역의 구현·검토 또는 책임 경계·데이터 흐름 변경 | docs/architecture.md |
 | 작업 완료와 결과 보고 | docs/pr-checklist.md |
 | 장기 결정 확인이나 변경 | docs/decisions.md |
 | <기능 영역> | docs/features/<feature-name>.md |
@@ -149,7 +149,8 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 - 분석, 진단, review 요청을 수정 요청으로 해석하지 않는다.
 - 새 의존성은 이유와 대안을 보고하고 사용자 확인 후 추가한다.
 - 문서에 없는 아키텍처, public API, 데이터 포맷, 보안, 라이선스, reference 사용 결정을 임의로 하지 않는다.
-- 참고 자료의 코드 표현을 복사하지 않는다.
+- 참고 전용 자료의 코드 표현을 복사하지 않는다.
+- 배포물에 포함할 제3자 코드나 자산은 사용자가 포함을 명시적으로 승인한 항목만 사용하고, 출처, version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution, 배포 경로를 `AGENTS.md`나 `docs/implementation-plan.md`의 소유 항목에 기록한다.
 - 구현과 `docs/implementation-plan.md`가 달라지면 같은 작업에서 맞춘다.
 - 완료 전 `docs/implementation-plan.md`의 검증 명령을 실행하고 결과와 남은 한계를 보고한다.
 
@@ -200,13 +201,13 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 - public API, 저장 포맷, 네트워크/보안 정책은 임의로 바꾸지 않는다.
 - 구현이 문서와 달라지면 문서를 함께 갱신한다.
 
-## 코드 구조
+## 책임 영역 지도
 
-프로젝트에 실제로 존재하는 구조 규칙만 적는다. 보편적인 layering이나 파일 분리 방식을 기본값으로 두지 않는다.
+이 섹션은 책임 영역별 소유 경로와 관련 architecture 계약을 찾기 위한 index다. 책임, public boundary와 dependency 제약은 `docs/architecture.md`를 단일 출처로 두고 여기에는 복사하지 않는다. 보편적인 layering이나 파일 분리 방식을 기본값으로 두지 않는다.
 
-| 책임 영역 | 소유 경로 | public boundary | 금지 dependency 또는 노출 |
-| --- | --- | --- | --- |
-| <영역> | <path> | <public API / 해당 없음> | <금지 항목 / 해당 없음> |
+| 책임 영역 | 소유 경로 | architecture 계약 |
+| --- | --- | --- |
+| <영역> | <path> | <docs/architecture.md의 section 또는 anchor> |
 
 ## 생성·동기화 파일
 
@@ -233,9 +234,10 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 ## Reference와 라이선스
 
 - 공개 명세, 공식 문서, 제품 동작은 동작과 계약을 이해하는 근거로 사용할 수 있다.
-- 참고 코드의 표현, 자료구조, 함수 분해를 그대로 옮기지 않는다.
-- 라이선스나 허용 범위가 불명확하면 사용을 멈추고 사용자에게 보고한다.
-- 배포물에 제3자 코드나 자산을 포함할 때는 출처(provenance), version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution, 배포 경로를 소유 문서에 기록한다.
+- 참고 자료는 코드 표현을 가져오지 않는 `reference-only`와 배포물에 포함할 `redistributed third-party`로 구분해 소유 문서에 기록한다.
+- `reference-only` 코드의 표현, 자료구조, 함수 분해를 그대로 옮기지 않는다.
+- `redistributed third-party`는 사용자가 포함을 명시적으로 승인한 항목만 사용하고 출처(provenance), version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution, 배포 경로를 기록한다.
+- 분류, 라이선스나 허용 범위가 불명확하면 사용을 멈추고 사용자에게 보고한다.
 - 제3자 항목의 라이선스나 고지 의무를 기계적으로 판정할 수 있으면 `docs/verification-matrix.md`의 적용되는 gate에 연결한다.
 
 ## Git / PR
@@ -248,7 +250,8 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 - 인계 위치: <issue / PR / docs/implementation-plan.md / existing work document>
 - 다음 세션이 현재 대화를 볼 수 없다면 채팅에만 남긴 요약을 인계로 보지 않는다.
-- 인계 기록은 자신이 속한 계획이나 작업을 식별하고, 완료 상태를 확인할 수 있는 commit, test 또는 artifact를 가리킨다.
+- 인계 기록은 자신이 속한 계획이나 작업, 기준 branch와 commit, working tree의 clean/dirty 상태, 이 작업이 소유한 변경과 기존 변경을 식별한다.
+- 완료 상태를 확인할 수 있는 commit, test 또는 artifact를 가리킨다.
 - 재개할 때는 인계 기록이 현재 작업의 것인지와 완료 상태가 저장소 evidence에 맞는지 확인하고, 충돌하면 그대로 채택하지 않는다.
 - 인계만을 위한 새 문서는 기본으로 만들지 않는다.
 ```
@@ -407,7 +410,7 @@ Input
 
 `AGENTS.md`, `README.md`나 동등한 진입점의 문서 지도가 커져 경로·anchor drift를 놓칠 위험이 있거나 같은 오류가 반복되면, 실제로 참조하는 문서만 확인하는 무결성 gate를 추가한다. 모든 프로젝트에 특정 Markdown 검사 도구를 기본으로 요구하지 않는다.
 
-배포물에 제3자 코드나 자산이 포함되면, 해당 항목의 출처, version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution이 실제 배포 artifact와 맞는지 확인하는 gate를 추가한다. 배포물에 포함되지 않는 dev/test 도구에는 이 gate를 적용하지 않는다.
+배포물에 `redistributed third-party` 코드나 자산이 포함되면, 해당 항목의 출처, version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution이 실제 배포 artifact와 맞는지 확인하는 gate를 추가한다. 배포물에 포함되지 않는 dev/test 도구에는 이 gate를 적용하지 않는다.
 
 민감정보를 제거·익명화한 fixture나 replay artifact는 처리 후에도 원래의 회귀 결과나 replay 결과를 유지하는지 확인한다. 검증할 수 없으면 해당 artifact를 evidence로 승격하지 않고 이유와 남은 위험을 보고한다.
 
@@ -527,12 +530,18 @@ Input
 
 - 여러 단계나 책임 영역에 영향을 주는 보류 결정과 이미 내려진 결정의 이유를 적는다.
 - 단계 안에서만 필요한 질문은 `docs/implementation-plan.md`에 두고, 다른 문서에서는 같은 결정을 복사하지 않고 이 기록을 가리킨다.
-- 현재 구현이 과거 결정과 달라졌다면 "현행화"를 적는다.
-- 결정이 바뀌면 이전 기록을 지우지 말고 새 항목으로 남긴다.
+- 현재 구현이 기록된 결정과 다르면 임의로 기록을 바꾸지 않고 "현행화 필요"로 보고한다.
+- 결정이 바뀌면 이전 결정의 본문을 덮어쓰지 않고 새 항목을 만든다. 이전 항목은 `대체됨`으로 표시해 새 결정 ID를 가리키고, 새 항목은 대체한 결정 ID를 가리킨다.
 
 ## D001: <결정 제목>
 
-상태: 결정됨 / 보류 / 폐기 / 현행화됨
+상태: 보류 / 결정됨 / 대체됨 / 폐기
+
+날짜: YYYY-MM-DD
+
+대체한 결정: <D000 / 없음>
+
+대체 결정: <D000 / 없음>
 
 결정:
 

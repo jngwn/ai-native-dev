@@ -47,7 +47,7 @@ workflow file
 예:
 
 ```text
-artifact는 실패 원인을 좁히기 위해 남긴다.
+실패 분석 artifact는 원인을 좁히기 위해 남긴다.
 schema가 바뀌면 migration test를 추가한다.
 runtime 동작은 이번 단계에서 바꾸지 않는다.
 ```
@@ -107,7 +107,7 @@ runtime 동작은 이번 단계에서 바꾸지 않는다.
 
 ```text
 좋음:
-artifact는 실패 원인을 좁히기 위해 남긴다.
+실패 분석 artifact는 원인을 좁히기 위해 남긴다.
 
 어색함:
 검증 산출물은 실패 원인을 좁히기 위해 남긴다.

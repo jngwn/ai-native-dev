@@ -96,7 +96,7 @@ CI workflow, branch rule, repository permission, secret, scheduled job처럼 저
 
 `AGENTS.md`, `README.md`나 동등한 진입점의 문서 지도가 커져 경로·anchor drift를 놓칠 위험이 있거나 같은 오류가 반복되면, 실제로 참조하는 문서만 확인하는 무결성 gate에 연결한다. 특정 Markdown 검사 도구를 모든 프로젝트의 기본값으로 두지 않는다.
 
-배포물에 제3자 코드나 자산이 포함되면 `docs/project-rules.md`나 조건부 라이선스 문서가 소유하는 출처, version, 라이선스, 수정·파생 여부, notice와 attribution 계약을 실제 배포 artifact와 대조하는 gate에 연결한다. 배포물에 포함되지 않는 dev/test 도구에는 적용하지 않는다.
+배포물에 `redistributed third-party` 코드나 자산이 포함되면 `docs/project-rules.md`나 조건부 라이선스 문서가 소유하는 출처, version, 라이선스, 수정·파생 여부, notice와 attribution 계약을 실제 배포 artifact와 대조하는 gate에 연결한다. 배포물에 포함되지 않는 dev/test 도구에는 적용하지 않는다.
 
 같은 계약 위반이 반복되고 프로젝트가 기계적으로 판정할 invariant를 정했다면 설명 문구를 누적하지 않고 gate에 연결한다. 적용 조건, 실패 의미, evidence와 현재 예외를 함께 적는다. 판정 기준이나 변경 권한이 없으면 임의의 proxy gate를 만들지 않고 사용자 결정 또는 review 절차로 남긴다.
 
@@ -244,17 +244,17 @@ bounded 확인:
 
 ---
 
-# artifact 작성 기준
+# 실패 분석 artifact 작성 기준
 
-artifact는 실패 원인을 좁히기 위해 남긴다.
+이 섹션은 실패 원인을 좁히기 위한 artifact에 적용한다. 완료 evidence, benchmark 결과, fixture나 장기 schema처럼 다른 역할의 artifact는 해당 계약을 소유한 계획, 검증 매트릭스 또는 artifact 문서의 기준을 따른다.
 
-| artifact 종류 | 필요한 내용 | 접근 경로 | 민감정보 제거 | 보존 조건 |
+| 실패 분석 artifact 종류 | 필요한 내용 | 접근 경로 | 민감정보 제거 | 보존 조건 |
 | --- | --- | --- | --- | --- |
 | <종류> | <원인 분석에 필요한 프로젝트별 정보> | <path or URL> | <제거하거나 일반화할 값> | <기간 또는 승격 조건> |
 
 토큰, 쿠키, 개인키, 홈 디렉터리 세부 경로, 사설 서버 주소는 제거하거나 일반화한다.
 
-artifact는 테스트를 대체하지 않는다.
+실패 분석 artifact는 테스트를 대체하지 않는다.
 
 테스트가 실패했을 때 사람이 원인을 빨리 찾게 하는 보조 자료다.
 
