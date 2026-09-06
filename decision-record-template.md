@@ -205,7 +205,9 @@ Gate 결과:
 
 | 대상 | 역할 | 사용 구분 | 허용한 사용 |
 | --- | --- | --- | --- |
-| <URL, 문서 또는 프로젝트> | <ground truth / oracle / workload / code reference> | <reference-only / redistributed third-party> | <동작 비교, API 이해, 코드·자산 포함 등> |
+| <자료 위치와 적용 version/revision 또는 고정 URL, 관련 section> | <ground truth / oracle / workload / code reference> | <reference-only / redistributed third-party> | <동작 비교, API 이해, 코드·자산 포함 등> |
+
+고정본이 없는 자료는 확인일과 다시 접근할 수 있는 사본 위치를 함께 적는다. 이 기록은 프로젝트가 채택한 근거를 보존하며, 최신판으로의 갱신을 요구하지 않는다.
 
 `reference-only` 대상:
 
