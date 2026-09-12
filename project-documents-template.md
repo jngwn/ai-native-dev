@@ -219,6 +219,15 @@ hot path, queue, cache, background task처럼 성능 회귀를 막아야 할 경
 
 외부 대상에 접근할 수 없으면 동기화됐다고 간주하지 않는다. 완료 보고에는 확인하지 못한 대상과 남은 drift 위험을 적는다.
 
+## 운영 값과 산문
+
+구현, config 또는 schema가 소유하는 정확한 숫자, 문자열, enum 값이 문서나 주석에도 필요할 때만 이 섹션을 둔다.
+
+- 산문에 값을 복사하기보다 canonical identifier와 소유 경로를 가리킨다.
+- 결정 근거를 이해하는 데 정확한 값이 필요해 함께 적으면 canonical owner와 갱신 책임을 명시한다.
+- 같은 drift가 반복되고 기계적으로 판정할 수 있으면 `docs/verification-matrix.md`의 gate에 연결한다.
+- 과거 상태를 설명하는 이력에는 당시 값을 보존할 수 있다.
+
 ## 테스트
 
 - 자동 테스트가 불가능하면 수동 검증 방법과 한계를 적는다.
@@ -408,6 +417,8 @@ Input
 
 `적용 조건`에는 gate를 실행하거나 건너뛰게 하는 변경 경로, 기능, 환경 또는 opt-in 조건을 구체적으로 적는다. 기계적으로 표현할 architecture boundary가 있으면 `docs/architecture.md`의 계약을 검증하는 행을 추가한다. 생성·동기화 파일이 있으면 `docs/project-rules.md`의 해당 계약을 가리키는 sync/drift gate를 추가한다.
 
+빈 입력, 건너뜀, fallback 또는 실행되지 않은 경로 때문에 gate가 공허하게 통과할 수 있으면, 대상 상태나 경로가 실제로 실행됐음을 보여 주는 assertion, counter 또는 artifact를 통과 조건에 포함한다. 이 evidence가 없으면 해당 계약을 검증했다고 간주하지 않고 한계에 적는다.
+
 `AGENTS.md`, `README.md`나 동등한 진입점의 문서 지도가 커져 경로·anchor drift를 놓칠 위험이 있거나 같은 오류가 반복되면, 실제로 참조하는 문서만 확인하는 무결성 gate를 추가한다. 모든 프로젝트에 특정 Markdown 검사 도구를 기본으로 요구하지 않는다.
 
 배포물에 `redistributed third-party` 코드나 자산이 포함되면, 해당 항목의 출처, version, 라이선스, 수정·파생 여부, 필요한 notice와 attribution이 실제 배포 artifact와 맞는지 확인하는 gate를 추가한다. 배포물에 포함되지 않는 dev/test 도구에는 이 gate를 적용하지 않는다.
@@ -427,6 +438,7 @@ Input
 - 검증과 evidence를 agent가 직접 실행·조회했는가, 아니면 사람 확인이 필요한가?
 - 각 gate의 적용 조건과 이번 변경에서 실행하거나 건너뛴 이유가 명확한가?
 - 환경 의존 검증의 실행 전제와 결과를 무효화하는 조건이 명확한가?
+- 공허하게 통과할 수 있는 gate가 대상 상태나 경로를 실제로 실행했다는 evidence를 남겼는가?
 - gate, 증거 경로, 한계가 바뀌었다면 과거 설명을 누적하지 않고 현재 상태로 현행화했는가?
 - 저장소 밖 설정에 의존하는 gate라면 실제 강제 상태를 확인했는가?
 - 원격 검증이 실패해도 필요한 artifact에 접근할 수 있는가?
